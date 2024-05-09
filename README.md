@@ -9,48 +9,32 @@ Sockets Links.
  server .
 4. Send and receive the message using the send function in socket.
 ## PROGRAM:
-### SERVER:
+## CLIENT:
 ```
 import socket
-
-HOST = '127.0.0.1'  
-PORT = 65432       
-
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    with conn:
-        print('Connected by', addr)
-        while True:
-            data = conn.recv(1024)
-            if not data:
-                break
-            conn.sendall(data)
-
+s=socket.socket()
+s.connect(('localhost',8000))
+while True:
+ msg=input("Client > ")
+ s.send(msg.encode())
+ print("Server > ",s.recv(1024).decode())
 ```
-### CLIENT:
+## SERVER:
 ```
 import socket
-
-HOST = '127.0.0.1'  
-PORT = 65432        
-
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT))
-    while True:
-        message = input("Enter message to send to server: ")
-        s.sendall(message.encode())
-        data = s.recv(1024)
-        print('Received', repr(data.decode()))
-
+s=socket.socket()
+s.bind(('localhost',8000))
+s.listen(5)
+c,addr=s.accept()
+while True:
+ ClientMessage=c.recv(1024).decode()
+ c.send(ClientMessage.encode())
 ```
-
-## OUTPUT:
-### SERVER : 
-![image](https://github.com/arbasil05/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/144218037/21e8cf8f-c448-445a-a520-02462699f482)
-### CLIENT : 
-![image](https://github.com/arbasil05/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/144218037/4f0dca11-0077-463c-80d3-eaf1922c1ac4)
+## OUPUT:
+## CLIENT:
+![WhatsApp Image 2024-04-11 at 14 15 00_5a28ad07](https://github.com/23002027/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/139752981/7a6579f1-6e60-45bd-b2c6-39d3e203704a)
+## SERVER:
+![WhatsApp Image 2024-04-11 at 14 15 15_d753fdc8](https://github.com/23002027/3a.Sockets_Creation_for_Echo_Client_and_Echo_Server/assets/139752981/ae3747b9-656f-47e6-8f9b-341ff1448b25)
 
 
 ## RESULT
